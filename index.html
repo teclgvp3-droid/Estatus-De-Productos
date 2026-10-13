@@ -6,9 +6,9 @@
   <title>AUTOESTATUS - Cesantoni</title>
   <style>
     :root {
-      --cesantoni-blue: #1e3a8a; /* Azul institucional elegante */
-      --cesantoni-dark: #111827; /* Negro/gris muy oscuro */
-      --bg-color: #f3f4f6;       /* Gris claro de fondo */
+      --cesantoni-blue: #1e3a8a;
+      --cesantoni-dark: #111827;
+      --bg-color: #f3f4f6;
       --card-bg: #ffffff;
       --text-main: #1f2937;
       --text-muted: #4b5563;
@@ -203,9 +203,11 @@ async function main(){
   }
 
   const meta = document.getElementById("meta");
-  meta.textContent = lmText
-    ? Última actualización: ${lmText} · Filas: ${count} | v2.1
-    : Filas: ${count} · (No se pudo leer la hora de actualización);
+  if (lmText) {
+    meta.textContent = "Ultima actualizacion: " + lmText + " · Filas: " + count + " | v2.2";
+  } else {
+    meta.textContent = "Filas: " + count + " · (No se pudo leer la hora de actualización)";
+  }
 }
 main().catch(e => document.getElementById("meta").textContent = "Error cargando TSV: " + e);
 </script>
