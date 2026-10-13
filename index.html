@@ -112,6 +112,9 @@ async function main(){
 
 }
 main().catch(e => document.getElementById("meta").textContent = "Error cargando TSV: " + e);
+setinterval (() => {
+main().catch(()=>{});
+} 2 * 60 * 1000 );
 </script>
 </body>
 </html>
