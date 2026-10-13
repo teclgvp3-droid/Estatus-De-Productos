@@ -2,16 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AUTOESTATUS - Cesantoni</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --bg-color: #f8fafc;
+      --cesantoni-blue: #1e3a8a; /* Azul institucional elegante */
+      --cesantoni-dark: #111827; /* Negro/gris muy oscuro */
+      --bg-color: #f3f4f6;       /* Gris claro de fondo */
       --card-bg: #ffffff;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
     }
 
     body {
@@ -19,69 +20,52 @@
       background-color: var(--bg-color);
       color: var(--text-main);
       margin: 0;
-      padding: 20px;
+      padding: 16px;
     }
 
     .container {
       max-width: 1000px;
       margin: 0 auto;
       background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-top: 4px solid var(--cesantoni-blue);
     }
 
     header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     h1 {
       margin: 0 0 4px 0;
-      font-size: 22px;
-      color: var(--text-main);
+      font-size: 20px;
+      color: var(--cesantoni-dark);
       letter-spacing: -0.025em;
     }
 
     .brand {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--cesantoni-blue);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .meta {
       color: var(--text-muted);
-      margin: 0 0 16px 0;
+      margin: 0 0 12px 0;
       font-size: 13px;
-    }
-
-    /* Buscador moderno */
-    .search-box {
-      width: 100%;
-      padding: 10px 14px;
-      font-size: 14px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      margin-bottom: 16px;
-      box-sizing: border-box;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .search-box:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .table-wrap {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      max-height: 600px;
+      border-radius: 6px;
+      max-height: 650px;
     }
 
     table {
@@ -89,11 +73,11 @@
       width: 100%;
       min-width: 500px;
       background-color: white;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     th, td {
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-bottom: 1px solid var(--border-color);
       border-right: 1px solid var(--border-color);
     }
@@ -103,17 +87,21 @@
     }
 
     th {
-      background: #f1f5f9;
+      background: var(--cesantoni-dark);
+      color: #ffffff;
       text-align: left;
       position: sticky;
       top: 0;
       z-index: 4;
       font-weight: 600;
-      color: #475569;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f9fafb;
     }
 
     tr:hover td {
-      background-color: #f8fafc;
+      background-color: #f3f4f6;
     }
 
     td.num {
@@ -129,19 +117,23 @@
       background: white;
     }
 
+    tr:nth-child(even) td.col-prod {
+      background-color: #f9fafb;
+    }
+
     thead th.col-prod {
-      background: #f1f5f9;
+      background: var(--cesantoni-dark);
       z-index: 5;
     }
 
     tr:hover td.col-prod {
-      background-color: #f8fafc;
+      background-color: #f3f4f6;
     }
 
     tr.highlight td {
       font-weight: 700;
-      background-color: #eff6ff !important;
-      color: #1d4ed8;
+      background-color: #dbeafe !important;
+      color: var(--cesantoni-blue);
     }
   </style>
 </head>
@@ -152,9 +144,6 @@
       <div class="brand">Cesantoni</div>
       <p class="meta" id="meta">Cargando…</p>
     </header>
-
-    <!-- Barra de búsqueda rápida -->
-    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar producto, formato o fase..." />
 
     <div class="table-wrap">
       <table>
@@ -173,8 +162,6 @@
   </div>
 
 <script>
-let allRowsData = [];
-
 async function main(){
   const url = "recuento_productos.tsv?ts=" + Date.now();
   const res = await fetch(url, {cache:"no-store"});
@@ -190,33 +177,15 @@ async function main(){
   if (lines[i] && lines[i].trim()==="") i++;
   if (lines[i] && lines[i].includes("Producto")) i++; 
 
-  allRowsData = [];
-  for (; i < lines.length; i++){
-    const cols = lines[i].split("\t");
-    while (cols.length < 5) cols.push("");
-    allRowsData.push(cols);
-  }
-
-  renderTable(allRowsData);
-
-  const meta = document.getElementById("meta");
-  meta.textContent = lmText
-    ? Última actualización: ${lmText} · Total filas: ${allRowsData.length} | v2.0
-    : Total filas: ${allRowsData.length} · (Sin hora de modificación);
-}
-
-function renderTable(data) {
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = "";
 
-  if (data.length === 0) {
-    tbody.innerHTML = <tr><td colspan="5" style="text-align: center; color: #64748b; padding: 20px;">No se encontraron resultados</td></tr>;
-    return;
-  }
-
-  data.forEach(cols => {
+  let count = 0;
+  for (; i < lines.length; i++){
+    const cols = lines[i].split("\t");
+    while (cols.length < 5) cols.push("");
+  
     const tr = document.createElement("tr");
-    
     const td1 = document.createElement("td"); td1.className = "col-prod"; td1.textContent = (cols[0]||"").trim();
     const td2 = document.createElement("td"); td2.textContent = (cols[1]||"").trim();
     const td3 = document.createElement("td"); td3.textContent = (cols[2]||"").trim();
@@ -224,25 +193,20 @@ function renderTable(data) {
     const td5 = document.createElement("td"); td5.textContent = (cols[4]||"").trim(); td5.className = "num";
     
     tr.append(td1, td2, td3, td4, td5);
+    tbody.appendChild(tr);
+    count++;
 
     const label = (cols[0] || "").trim();
     if (label === "Mesa vacia disponible" || label.startsWith("Total m²")) {
       tr.classList.add("highlight");
     }
+  }
 
-    tbody.appendChild(tr);
-  });
+  const meta = document.getElementById("meta");
+  meta.textContent = lmText
+    ? Última actualización: ${lmText} · Filas: ${count} | v2.1
+    : Filas: ${count} · (No se pudo leer la hora de actualización);
 }
-
-// Filtro de búsqueda en vivo
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  const term = e.target.value.toLowerCase();
-  const filtered = allRowsData.filter(cols => 
-    cols.some(val => val.toLowerCase().includes(term))
-  );
-  renderTable(filtered);
-});
-
 main().catch(e => document.getElementById("meta").textContent = "Error cargando TSV: " + e);
 </script>
 </body>
