@@ -2,115 +2,247 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AUTOESTATUS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AUTOESTATUS - Cesantoni</title>
   <style>
-    body{font-family:Arial,sans-serif;padding:14px}
-    h1{margin:0 0 6px 0;font-size:20px}
-    .meta{color:#555;margin:0 0 14px 0;font-size:13px}
-    table{border-collapse:collapse;width:100%}
-    th,td{border:1px solid #ddd;padding:8px}
-    th{background:#f5f5f5;text-align:left;position:sticky;top:0}
-    tr:nth-child(even){background:#fafafa}
-    td.num{text-align:right}
-    .center { text-align: center; }
-    .table-wrap{
+    :root {
+      --primary: #2563eb;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      padding: 24px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 4px 0;
+      font-size: 22px;
+      color: var(--text-main);
+      letter-spacing: -0.025em;
+    }
+
+    .brand {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .meta {
+      color: var(--text-muted);
+      margin: 0 0 16px 0;
+      font-size: 13px;
+    }
+
+    /* Buscador moderno */
+    .search-box {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .table-wrap {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
+      max-height: 600px;
     }
-    table{
-      min-width: 240px;
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 500px;
+      background-color: white;
+      font-size: 14px;
     }
-    th, td{
-      white-space: nowrap;
+
+    th, td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
     }
-    th.col-prod, td.col-prod{
-      max-width: 110px;
-      width: 110px;
+
+    th:last-child, td:last-child {
+      border-right: none;
+    }
+
+    th {
+      background: #f1f5f9;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    td.num {
+      text-align: right;
+    }
+
+    th.col-prod, td.col-prod {
+      max-width: 140px;
       white-space: normal;
       position: sticky;
-      z-index: 3;
       left: 0;
+      z-index: 3;
       background: white;
     }
-    thead th.col-prod{
-  background: #f5f5f5;
-  z-index: 4;
+
+    thead th.col-prod {
+      background: #f1f5f9;
+      z-index: 5;
     }
-    tr.highlight td{
-  font-weight: 700;
+
+    tr:hover td.col-prod {
+      background-color: #f8fafc;
+    }
+
+    tr.highlight td {
+      font-weight: 700;
+      background-color: #eff6ff !important;
+      color: #1d4ed8;
     }
   </style>
 </head>
 <body>
-  <h1 class="center">ESTATUS DE MESAS</h1>
-  <p class="meta" id="meta">Cargando…</p>
-<div class="table-wrap">
-  <table>
-    <thead>
-      <tr><th class="col-prod">Producto</th><th>Formato</th><th>Fase</th><th>Cantidad</th><th>Área(m²)</th></tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
-</div>
-<h1 class="center">CESANTONI</h1>
+  <div class="container">
+    <header>
+      <h1>ESTATUS DE MESAS</h1>
+      <div class="brand">Cesantoni</div>
+      <p class="meta" id="meta">Cargando…</p>
+    </header>
+
+    <!-- Barra de búsqueda rápida -->
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar producto, formato o fase..." />
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-prod">Producto</th>
+            <th>Formato</th>
+            <th>Fase</th>
+            <th>Cantidad</th>
+            <th>Área (m²)</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
 <script>
+let allRowsData = [];
+
 async function main(){
-  // cache-bust
   const url = "recuento_productos.tsv?ts=" + Date.now();
   const res = await fetch(url, {cache:"no-store"});
 
-  // Mostrar hora (por favor funciona)
   const lm = res.headers.get("last-modified");
-  let lmText = "";
-  if (lm) {
-    const d = new Date(lm);
-    // Mostrar en hora local del telefono (en teoria innecesario pero igual)
-    lmText = d.toLocaleString();
-  }
+  let lmText = lm ? new Date(lm).toLocaleString() : "";
   
   const txt = await res.text();
-
   const lines = txt.split(/\r?\n/).filter(l => l.trim().length);
-  // **Producto**  **Fase**  **Cantidad** Se remueve los del tsv para no tener doble header
+  
   let i = 0;
   if (lines[i] && lines[i].toUpperCase().startsWith("AUTOESTATUS")) i++;
   if (lines[i] && lines[i].trim()==="") i++;
-  if (lines[i] && lines[i].includes("Producto")) i++; // header
+  if (lines[i] && lines[i].includes("Producto")) i++; 
 
+  allRowsData = [];
+  for (; i < lines.length; i++){
+    const cols = lines[i].split("\t");
+    while (cols.length < 5) cols.push("");
+    allRowsData.push(cols);
+  }
+
+  renderTable(allRowsData);
+
+  const meta = document.getElementById("meta");
+  meta.textContent = lmText
+    ? Última actualización: ${lmText} · Total filas: ${allRowsData.length} | v2.0
+    : Total filas: ${allRowsData.length} · (Sin hora de modificación);
+}
+
+function renderTable(data) {
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = "";
 
-  let count = 0;
-  for (; i < lines.length; i++){
-    const cols = lines[i].split("\t");
-    while (cols.lenght < 5 ) cols.push("");
-  
+  if (data.length === 0) {
+    tbody.innerHTML = <tr><td colspan="5" style="text-align: center; color: #64748b; padding: 20px;">No se encontraron resultados</td></tr>;
+    return;
+  }
 
+  data.forEach(cols => {
     const tr = document.createElement("tr");
+    
     const td1 = document.createElement("td"); td1.className = "col-prod"; td1.textContent = (cols[0]||"").trim();
     const td2 = document.createElement("td"); td2.textContent = (cols[1]||"").trim();
     const td3 = document.createElement("td"); td3.textContent = (cols[2]||"").trim();
-    const td4 = document.createElement("td"); td4.textContent = (cols[3]||"").trim(); td4.className="num";
-    const td5 = document.createElement("td"); td5.textContent = (cols[4]||"").trim(); td5.className="num";
+    const td4 = document.createElement("td"); td4.textContent = (cols[3]||"").trim(); td4.className = "num";
+    const td5 = document.createElement("td"); td5.textContent = (cols[4]||"").trim(); td5.className = "num";
     
-    tr.append(td1,td2,td3,td4,td5);
-    tbody.appendChild(tr);
-    count++;
+    tr.append(td1, td2, td3, td4, td5);
+
     const label = (cols[0] || "").trim();
     if (label === "Mesa vacia disponible" || label.startsWith("Total m²")) {
-    tr.classList.add("highlight");
-}
-  }
+      tr.classList.add("highlight");
+    }
 
-   const meta = document.getElementById("meta");
-    meta.textContent = lmText
-    ? `Última actualización: ${lmText} · Filas: ${count} | v1.4.1`
-    : `Filas: ${count} · (No se pudo leer la hora de actualización)`;
-
+    tbody.appendChild(tr);
+  });
 }
+
+// Filtro de búsqueda en vivo
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  const term = e.target.value.toLowerCase();
+  const filtered = allRowsData.filter(cols => 
+    cols.some(val => val.toLowerCase().includes(term))
+  );
+  renderTable(filtered);
+});
+
 main().catch(e => document.getElementById("meta").textContent = "Error cargando TSV: " + e);
 </script>
 </body>
