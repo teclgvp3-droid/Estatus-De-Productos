@@ -1,12 +1,12 @@
 ﻿AUTOESTATUS v1.1.3
 
 **Producto**	**Formato**	**Fase**	**Cantidad**	**AreaTotal_m2**
-Caravita Gold	60x120	Cocido	1	172.800
-Leighton Sand 60x120	60x120	Cocido	1	172.800
+Caravita Gold	60x120	Cocido	2	345.600
+Leighton Sand 60x120	60x120	Cocido	2	345.600
 Caravita Gold Pulido	60x120	Pulido	3	518.400
 Leighton Sand Rectificado	60x120	Rectificado	4	691.200
-Mesa vacia disponible				64
-Total m2 Cocido				345.600
+Mesa vacia disponible				63
+Total m2 Cocido				691.200
 Total m2 Pulido				518.400
 Total m2 Rectificado				691.200
-Total m2				1,555.200
+Total m2				1,900.800
