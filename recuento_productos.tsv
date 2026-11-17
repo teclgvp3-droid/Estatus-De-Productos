@@ -1,11 +1,10 @@
 ﻿AUTOESTATUS v1.1.3
 
 **Producto**	**Formato**	**Fase**	**Cantidad**	**AreaTotal_m2**
-Kingston gray	80x120	Cocido	3	
-Kiel Gray	60x120	Cocido	2	345.600
+Kingston gray	80x120	Cocido	4	
+Kiel Gray	60x120	Cocido	3	518.400
 Kiel Gray 60x60	60x60	Cocido	1	172.800
-Montebello	60x60	Cocido	1	172.800
-Kingstone Gray Pulido	80x160	Pulido	8	1,228.800
+Kingstone Gray Pulido	80x160	Pulido	9	1,382.400
 Caravita Gold Pulido	60x120	Pulido	5	864.000
 Sterling Black Rectificado	60x120	Rectificado	6	1,036.800
 Kiel Sand Rectificado	60x60	Rectificado	4	691.200
@@ -14,6 +13,6 @@ kingstone Gray RecPul	80x160	Rectificado	2	307.200
 Kingstone Gray Rectificado	80x160	Rectificado	1	153.600
 Mesa vacia disponible				34
 Total m2 Cocido				691.200
-Total m2 Pulido				2,092.800
+Total m2 Pulido				2,246.400
 Total m2 Rectificado				2,707.200
-Total m2				5,491.200
+Total m2				5,644.800
